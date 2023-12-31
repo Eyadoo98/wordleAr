@@ -1,0 +1,80 @@
+.letter-example-one, .letter-example-two, .letter-example-three {
+    display: inline-block;
+    animation-name: flip;
+    animation-duration: 1s;
+    padding: 11px;
+}
+
+@keyframes flip {
+    0% {
+        transform: rotateX(0deg);
+    }
+    50% {
+        transform: rotateX(120deg);
+    }
+}
+@media screen and (max-width: 767px) {
+  .custom-font-size-modal{
+    font-size: 12px;
+  }
+}
+h1 {
+    text-align: center;
+}
+
+#game-board {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.letter-box {
+    border: 2px solid gray;
+    border-radius: 3px;
+    margin: 2px;
+    font-size: 2.5rem;
+    font-weight: 700;
+    height: 4rem;
+    width: 4rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-transform: uppercase;
+    font-family: 'ChangaLihgt';
+    color: white;
+}
+/*.filled-box {*/
+/*    border: 2px solid black;*/
+/*}*/
+
+.letter-row {
+    display: flex;
+    direction: rtl;
+}
+/*.toast-error {*/
+/*    background-color: #1a202c;*/
+/*}*/
+#keyboard-cont {
+    /*margin: 1rem 0;*/
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#keyboard-cont div {
+    display: flex;
+}
+
+.second-row {
+    margin: 0.5rem 0;
+}
+
+.keyboard-button {
+    font-size: 20px;
+    font-weight: 700;
+    padding: 13px;
+    margin: 0 2px;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-family: 'ChangaLihgt';
+}

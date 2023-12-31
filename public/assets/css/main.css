@@ -1,0 +1,17 @@
+@font-face {
+    font-family: 'ChangaBold';
+    src: url('../../assets/fonts/changa/static/Changa-Bold.ttf');
+    font-weight: 100;
+}
+@font-face {
+    font-family: 'ChangaLight';
+    src: url('../../assets/fonts/changa/static/Changa-Light.ttf');
+    font-weight: bold;
+}
+@font-face {
+    font-family: 'SevillanaRegular';
+    src: url('../../assets/fonts/Sevillana/Sevillana-Regular.ttf');
+}
+body {
+    font-family:  'ChangaBold';
+}
