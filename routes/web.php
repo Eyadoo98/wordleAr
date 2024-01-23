@@ -4,6 +4,7 @@ use App\Http\Middleware\CheckSession;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\WordleAr\SocialiteController;
 use App\Http\Controllers\WordleAr\SessionController;
+use App\Http\Controllers\WordleAr\DictionaryController;
 use Illuminate\Support\Facades\Session;
 
 /*
@@ -42,9 +43,17 @@ Route::post('/auth/login', [SocialiteController::class, 'authLogin'])->name('aut
 
 Route::post('/session', [SessionController::class, 'setSession']);
 
-Route::post('/getSession', [SessionController::class, 'getSession']);
+Route::post('/getCookies', [SessionController::class, 'getCookies']);
 
 Route::get('/status/player', [\App\Http\Controllers\WordleAr\StatusController::class, 'getStatus'])->name('status.player');
+
+Route::get('/app/dictionary', [DictionaryController::class, 'getDictionary'])->name('app.dictionary');
+
+Route::get('/app/getDictionaryWordsQuran', [DictionaryController::class, 'getDictionaryWordsQuran'])->name('app.getDictionaryWordsQuran');
+
+Route::get('/app/getWordsQuranToday', [DictionaryController::class, 'getWordsQuranToday'])->name('app.getWordsQuranToday');
+
+Route::post('/app/checkWordsQuranToday', [DictionaryController::class, 'checkWordsQuranToday']);
 
 //Route::get('/status', function () {
 //    return view('partials.WordleAr.status');

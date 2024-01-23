@@ -39,6 +39,13 @@ class SocialiteController extends Controller
                     'password' => Hash::make('123456789'),
                 ]);
                 auth()->login($newUser);
+                $credentials = [
+                    'email' => $user->email,
+                    'password' => $user->password,
+                ];
+                Auth::attempt($credentials);//for make user login
+//                Auth::login($newUser);
+//                Auth::attempt(['email' => $user->email, 'password' => '123456789']);
                 return redirect()->route('main');
             }
         } catch (\Exception $e) {

@@ -1,18 +1,46 @@
-import {WORDS} from "./words.js";
+// import {WORDS} from "./words.js";
+let WORDS = [];
+
+$.ajax(
+    {
+        headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+        url: "/app/getDictionaryWordsQuran",//getWordsQuranToday
+        type: "GET",
+        async: false,
+        success: function (result) {
+            WORDS = result;
+        },
+    }
+);
+var todayWord = "";
+var currentDate = new Date();
+for (let i = 0; i < WORDS.length; i++) {
+        var laravelDate = new Date(WORDS[i]['created_at']);
+        if (laravelDate.toDateString() === currentDate.toDateString()) {
+            todayWord = WORDS[i]['word'];
+            break;
+        }
+}
 
 let arrCharStorage = [];
+const body = document.querySelector("body");
 
 document.addEventListener('DOMContentLoaded', function () {
     const NUMBER_OF_GUESSES = 6;
     let guessesRemaining = NUMBER_OF_GUESSES;
     let currentGuess = [];
     let nextLetter = 0;
-    let rightGuessString = WORDS[Math.floor(Math.random() * WORDS.length)]; //get random word from list of words in words.js
+    // let rightGuessString = WORDS[Math.floor(Math.random() * WORDS.length)]; //get random word from list of words in words.js
+    if (todayWord === "") {
+        todayWord = WORDS[Math.floor(Math.random() * WORDS.length)]['word']; //get random word from list of words in words.js
+    }
+    let rightGuessString = todayWord;
     let arrChar = [];
 
     let WordsArr = [];
     let objSession = {};
     let colors = [];
+    var colorCount = 0;
     console.log(rightGuessString);
 
     function initBoard() {// for creating the board 6 rows of 5 boxes
@@ -21,17 +49,15 @@ document.addEventListener('DOMContentLoaded', function () {
         $.ajax(
             {
                 headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                url: "/getSession",
+                url: "/getCookies",
                 type: "POST",
                 async: false,
                 success: function (result) {
-                    // arrCharStorage.push(result);
-                    // console.log(result);
                     objSession = result;
+                    // console.log(objSession);
                 },
             }
         );
-        let numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30];
         // console.log(objSession);
         for (let i = 0; i < NUMBER_OF_GUESSES; i++) {
             let row = document.createElement("div");
@@ -41,62 +67,95 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 box.className = "letter-box";
 
-                box.classList.add('letter-box-' + numbers[i] + [j]);
-
-
                 row.appendChild(box);
 
             }
             board.appendChild(row);
         }
         if (typeof objSession !== 'undefined') {
-            $.ajax(
-                {
-                    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                    url: "/getSession",
-                    type: "POST",
-                    success: function (result) {
-                        objSession = result;
-                        console.log(objSession);
-                        // console.log(objSession.words.length);//10
+            let rows = document.getElementsByClassName("letter-row");
+            var charCount = 0;
+            var testCount = 0;
 
-                        let rows = document.getElementsByClassName("letter-row");
-                        var charCount= 0;
+            if (objSession.is_played === 'played') {
+                // console.log(objSession.date);
 
-
-                        for (let row of rows) {
-                            for (let cell of row.children) {
-                                // console.log(objSession.words[charCount]);
-                                cell.textContent = objSession.words[charCount];
-                                cell.style.backgroundColor = objSession.colors.flat()[charCount];
-                                // console.log(objSession.colors.flat());
-                                charCount++;
-                            }
-                        }
-
-                    },
+                for (let row of rows) {//for adding the words to the board and shading the boxes
+                    for (let cell of row.children) {
+                        // console.log(objSession.words[charCount]);
+                        cell.textContent = objSession.words[charCount];
+                        cell.style.backgroundColor = objSession.colors.flat()[charCount];
+                        // console.log(objSession.colors.flat());
+                        charCount++;
+                    }
                 }
-            );
+            }
+            // for coloring the keyboard buttons (letters)
+            // if (typeof objSession !== 'undefined') {//for shading the keyboard buttons
+            if (objSession.is_played === 'played') {
+                for (let char of objSession.words) {
+                    for (const elem of document.getElementsByClassName("keyboard-button")) {
+                        if (elem.textContent === char) {
+                            elem.style.backgroundColor = objSession.colors.flat()[colorCount++];
+                            elem.style.color = "#fff";
+                            testCount++;
+                        }
+                    }
+                }
+            }
+            // $.ajax(
+            //     {
+            //         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+            //         url: "/getSession",
+            //         type: "POST",
+            //         success: function (result) {
+            //             objSession = result;
+            //             // console.log(objSession);
+            //             // console.log(objSession.words.length);//10
+            //
+            //             let rows = document.getElementsByClassName("letter-row");
+            //             var charCount = 0;
+            //             var testCount = 0;
+            //
+            //             if (objSession.is_played === 'played') {
+            //                 // console.log(objSession.date);
+            //
+            //                 for (let row of rows) {//for adding the words to the board and shading the boxes
+            //                     for (let cell of row.children) {
+            //                         // console.log(objSession.words[charCount]);
+            //                         cell.textContent = objSession.words[charCount];
+            //                         cell.style.backgroundColor = objSession.colors.flat()[charCount];
+            //                         // console.log(objSession.colors.flat());
+            //                         charCount++;
+            //                     }
+            //                 }
+            //             }
+            //             // for coloring the keyboard buttons (letters)
+            //             // if (typeof objSession !== 'undefined') {//for shading the keyboard buttons
+            //             if (objSession.is_played === 'played') {
+            //                 for (let char of objSession.words) {
+            //                     for (const elem of document.getElementsByClassName("keyboard-button")) {
+            //                         if (elem.textContent === char) {
+            //                             elem.style.backgroundColor = objSession.colors.flat()[colorCount++];
+            //                             elem.style.color = "#fff";
+            //                             testCount++;
+            //                         }
+            //                     }
+            //                 }
+            //             }
+            //         },
+            //     }
+            // );
 
         }
 
     }
 
     function shadeKeyBoard(letter, color) {// for shading the keyboard buttons
-        $.ajax(
-            {
-                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                url: "/getSession",
-                type: "POST",
-                async: false,
-                success: function (result) {//check if empty
-                    objSession = result;
-                    // console.log(objSession);
-                },
-            }
-        );
+
         for (const elem of document.getElementsByClassName("keyboard-button")) {
             if (elem.textContent === letter) {
+
                 let oldColor = elem.style.backgroundColor;
                 if (oldColor === "#538D4E") {
                     return;
@@ -107,7 +166,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
 
                 elem.style.backgroundColor = color;
-                // elem.style.backgroundColor = objSession.colors.flat()[arrChar.length;
+                elem.style.color = "#fff";
                 break;
             }
         }
@@ -139,12 +198,51 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
 
-        if (!WORDS.includes(guessString)) {
+        //here
+        let arrWord = [];
+        for (var i = 0; i < WORDS.length; i++) {
+            arrWord.push(WORDS[i].word);
+        }
+        // console.log(arrWord);
+        // console.log(guessString);
+        // var hardMood = $('.hard-mode-switch').data('value');
+        // if (hardMood === 'hard') {
+        //     if (!arrWord.includes(guessString)) {
+        //         toastr.error("الكلمة غير xxxx!");
+        //         return;
+        //     }
+        // }
+        // var check = 0;
+        // $.ajax(
+        //     {
+        //         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+        //         url: "/app/checkWordsQuranToday",
+        //         type: "POST",
+        //         data: {
+        //             word: guessString,
+        //         },
+        //         success: function (result) {
+        //             check = result.status;
+        //             // console.log(result);
+        //             // if (result.status === 0) {
+        //             //     toastr.error("الكلمة غير موجودة!");
+        //             //     return;
+        //             // }
+        //         },
+        //     }
+        // );
+        if (!arrWord.includes(guessString)) {
             toastr.error("الكلمة غير موجودة!");
             return;
         }
 
-        var letterColor = ["#3A3A3C", "#3A3A3C", "#3A3A3C", "#3A3A3C", "#3A3A3C"];
+        // if (!WORDS.includes(guessString)) {
+        //     toastr.error("الكلمة غير موجودة!");
+        //     return;
+        // }
+
+        // var letterColor = ["#3A3A3C", "#3A3A3C", "#3A3A3C", "#3A3A3C", "#3A3A3C"];
+        var letterColor = ["#FF0000", "#FF0000", "#FF0000", "#FF0000", "#FF0000"];//787C7E FF0000
 
         //check green
         for (let i = 0; i < 5; i++) {
@@ -163,7 +261,8 @@ document.addEventListener('DOMContentLoaded', function () {
             //checking right letters
             for (let j = 0; j < 5; j++) {
                 if (rightGuess[j] == currentGuess[i]) {
-                    letterColor[i] = "#B59F3B";
+                    // letterColor[i] = "#B59F3B";
+                    letterColor[i] = "#C9B458";
                     rightGuess[j] = "#";
                     // arrChar.push(guessString)
                 }
@@ -199,25 +298,27 @@ document.addEventListener('DOMContentLoaded', function () {
                     type: "POST",
                     data: {
                         words: arrChar,
-                        colors: colors
+                        colors: colors,
+                        is_win:'won'
                     },
                     success: function (result) {
-                        console.log(typeof result);
-                        console.log(result);
+                        console.log(result)
 
                         if (result.date === 'today') {
                             const myTimeout = setTimeout(openModal, 3000);
-                            // WordsArr.push(result.words);
                             objSession = result;
-
-                            // console.log(result + " sss ");
                             function openModal() {
-                                $('#status-modal').css('display', 'block');
+                                // $('#status-modal').css('display', 'block');
+                                // location.reload();
+                                // $("#ModalStatistic").load(location.href + " #ModalStatistic");
+                                $('.modalStatisticButton').trigger('click');
+
                             }
                         }
                     },
                 }
             );
+            $('.letter-box').css('color', 'white');
             return;
         } else {
             guessesRemaining -= 1;
@@ -232,9 +333,13 @@ document.addEventListener('DOMContentLoaded', function () {
                         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                         url: "/session",
                         type: "POST",
-                        data: {words: arrChar},
+                        data:
+                            {
+                                words: arrChar,
+                                colors: colors
+                            },
                         success: function (result) {
-                            console.log(typeof result);
+                            // console.log(typeof result);
                             console.log(result);
 
                             if (result.date === 'today') {
@@ -244,14 +349,17 @@ document.addEventListener('DOMContentLoaded', function () {
 
                                 // console.log(result + " sss ");
                                 function openModal() {
-                                    $('#status-modal').css('display', 'block');
+                                    // $('#status-modal').css('display', 'block');
+                                    $('.modalStatisticButton').trigger('click');
                                 }
                             }
                         },
                     }
                 );
             }
+            $('.letter-box').css('color', 'white');
         }
+
     }
 
     function insertLetter(pressedKey) {
@@ -267,7 +375,11 @@ document.addEventListener('DOMContentLoaded', function () {
         box.classList.add("filled-box");
         currentGuess.push(pressedKey);
         arrChar.push(pressedKey);
-
+        if(body.classList.contains("dark")){
+            box.style.color = "#ffffff";
+        }else{
+            box.style.color = "#000000";
+        }
         nextLetter += 1;
     }
 
@@ -303,9 +415,22 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         if (pressedKey === "Enter") {
-            checkGuess();
+            if (objSession.is_played !== 'played') {
+                checkGuess();
+            }
+            // checkGuess();
             return;
         }
+
+        if (objSession.is_played === 'played') {//for preventing the user from typing
+            return ;
+        }
+
+        // if (typeof objSession !== 'undefined') {//for preventing the user from typing
+        //     if (objSession.words) {
+        //         return;
+        //     }
+        // }
 
         // let found = pressedKey.match(/[a-z]/gi); //change here for arabic
         let found = pressedKey.match(/[\u0600-\u06FF]/); //change here for arabic

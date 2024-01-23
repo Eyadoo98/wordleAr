@@ -23,10 +23,16 @@
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     {{--    <script src="https://unpkg.com/alpinejs" defer></script>--}}
 
+    {{-- font awesome   --}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="{{asset('assets/css/style.css')}}">
+
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+{{--    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>--}}
     @livewireStyles
 
 </head>
+
 <body>
 
 @yield('content')
@@ -35,59 +41,67 @@
 @endisset
 {{--{{$slot ? $slot : ''}}--}}
 {{--<div id="dataUrlReloadStatus" data-url-reload-status="{{ route('status.player') }}"></div>--}}
-
+<span data-value="" class="hard-mode-switch"></span>
 <div id="game-board-container" style="display: none;overflow-y: hidden;">
-    <div class="h-9 bg-black dark:bg-paige"></div>
+    <div class="h-9 text-gray-500 dark:text-black bg-white dark:bg-black height-game-board"></div>
 
-    <div id="game-board" class="bg-black dark:bg-paige">
+    <div id="game-board" class="text-gray-500 dark:text-black bg-white dark:bg-black">
 
     </div>
-    <div class="h-9 bg-black dark:bg-paige"></div>
-    <div id="keyboard-cont" class="bg-black dark:bg-paige">
+    <div class="h-9 text-gray-500 dark:text-black bg-white dark:bg-black"></div>
+    <div id="keyboard-cont" class="text-gray-500 dark:text-black bg-white dark:bg-black">
         <div class="first-row">
-            <button class="keyboard-button text-white dark:text-black bg-gray-500 dark:bg-gray-300 rounded-md">ض</button>
-            <button class="keyboard-button text-white dark:text-black p-6 bg-gray-500 dark:bg-gray-300 rounded-md">ص</button>
-            <button class="keyboard-button text-white dark:text-black p-6 bg-gray-500 dark:bg-gray-300 rounded-md">ث</button>
-            <button class="keyboard-button text-white dark:text-black p-6 bg-gray-500 dark:bg-gray-300 rounded-md">ق</button>
-            <button class="keyboard-button text-white dark:text-black p-6 bg-gray-500 dark:bg-gray-300 rounded-md">ف</button>
-            <button class="keyboard-button text-white dark:text-black p-6 bg-gray-500 dark:bg-gray-300 rounded-md">غ</button>
-            <button class="keyboard-button text-white dark:text-black p-6 bg-gray-500 dark:bg-gray-300 rounded-md">ع</button>
-            <button class="keyboard-button text-white dark:text-black p-6 bg-gray-500 dark:bg-gray-300 rounded-md">ه</button>
-            <button class="keyboard-button text-white dark:text-black p-6 bg-gray-500 dark:bg-gray-300 rounded-md">خ</button>
-            <button class="keyboard-button text-white dark:text-black p-6 bg-gray-500 dark:bg-gray-300 rounded-md">ح</button>
+            <button class="keyboard-button text-black dark:text-white bg-gray-custom dark:bg-gray-dark  rounded-md">ض</button>
+            <button class="keyboard-button text-black dark:text-white p-6 bg-gray-custom dark:bg-gray-dark rounded-md">ص</button>
+            <button class="keyboard-button text-black dark:text-white p-6 bg-gray-custom dark:bg-gray-dark rounded-md">ث</button>
+            <button class="keyboard-button text-black dark:text-white p-6 bg-gray-custom dark:bg-gray-dark rounded-md">ق</button>
+            <button class="keyboard-button text-black dark:text-white p-6 bg-gray-custom dark:bg-gray-dark rounded-md">ف</button>
+            <button class="keyboard-button text-black dark:text-white p-6 bg-gray-custom dark:bg-gray-dark rounded-md">غ</button>
+            <button class="keyboard-button text-black dark:text-white p-6 bg-gray-custom dark:bg-gray-dark rounded-md">ع</button>
+            <button class="keyboard-button text-black dark:text-white p-6 bg-gray-custom dark:bg-gray-dark rounded-md">ه</button>
+            <button class="keyboard-button text-black dark:text-white p-6 bg-gray-custom dark:bg-gray-dark rounded-md">خ</button>
+            <button class="keyboard-button text-black dark:text-white p-6 bg-gray-custom dark:bg-gray-dark rounded-md">ح</button>
+            <button class="keyboard-button text-black dark:text-white p-6 bg-gray-custom dark:bg-gray-dark rounded-md">ج</button>
         </div>
         <div class="second-row">
-            <button class="keyboard-button text-white dark:text-black p-6 bg-gray-500 dark:bg-gray-300 rounded-md">Del</button>
 
-            <button class="keyboard-button text-white dark:text-black p-6 bg-gray-500 dark:bg-gray-300 rounded-md">د</button>
-            <button class="keyboard-button text-white dark:text-black p-6 bg-gray-500 dark:bg-gray-300 rounded-md">ش</button>
-            <button class="keyboard-button text-white dark:text-black p-6 bg-gray-500 dark:bg-gray-300 rounded-md">س</button>
-            <button class="keyboard-button text-white dark:text-black p-6 bg-gray-500 dark:bg-gray-300 rounded-md">ي</button>
-            <button class="keyboard-button text-white dark:text-black p-6 bg-gray-500 dark:bg-gray-300 rounded-md">ب</button>
-            <button class="keyboard-button text-white dark:text-black p-6 bg-gray-500 dark:bg-gray-300 rounded-md">ل</button>
-            <button class="keyboard-button text-white dark:text-black p-6 bg-gray-500 dark:bg-gray-300 rounded-md">ا</button>
-            <button class="keyboard-button text-white dark:text-black p-6 bg-gray-500 dark:bg-gray-300 rounded-md">ت</button>
-            <button class="keyboard-button text-white dark:text-black p-6 bg-gray-500 dark:bg-gray-300 rounded-md">ن</button>
-            <button class="keyboard-button text-white dark:text-black p-6 bg-gray-500 dark:bg-gray-300 rounded-md">Enter</button>
+            <button class="keyboard-button text-black dark:text-white p-6 bg-gray-custom dark:bg-gray-dark rounded-md">ش</button>
+            <button class="keyboard-button text-black dark:text-white p-6 bg-gray-custom dark:bg-gray-dark rounded-md">س</button>
+            <button class="keyboard-button text-black dark:text-white p-6 bg-gray-custom dark:bg-gray-dark rounded-md">ي</button>
+            <button class="keyboard-button text-black dark:text-white p-6 bg-gray-custom dark:bg-gray-dark rounded-md">ب</button>
+            <button class="keyboard-button text-black dark:text-white p-6 bg-gray-custom dark:bg-gray-dark rounded-md">ل</button>
+            <button class="keyboard-button text-black dark:text-white p-6 bg-gray-custom dark:bg-gray-dark rounded-md">ا</button>
+
+            <button class="keyboard-button text-black dark:text-white p-6 bg-gray-custom dark:bg-gray-dark rounded-md">ت</button>
+            <button class="keyboard-button text-black dark:text-white p-6 bg-gray-custom dark:bg-gray-dark rounded-md">ن</button>
+            <button class="keyboard-button text-black dark:text-white p-6 bg-gray-custom dark:bg-gray-dark rounded-md">م</button>
+            <button class="keyboard-button text-black dark:text-white p-6 bg-gray-custom dark:bg-gray-dark rounded-md">ك</button>
+            <button class="keyboard-button text-black dark:text-white p-6 bg-gray-custom dark:bg-gray-dark rounded-md">ة</button>
+
 
         </div>
         <div class="third-row">
-            <button class="keyboard-button text-white dark:text-black p-6 bg-gray-500 dark:bg-gray-300 rounded-md">م</button>
-            <button class="keyboard-button text-white dark:text-black p-6 bg-gray-500 dark:bg-gray-300 rounded-md">ك</button>
-            <button class="keyboard-button text-white dark:text-black p-6 bg-gray-500 dark:bg-gray-300 rounded-md">ط</button>
-            <button class="keyboard-button text-white dark:text-black p-6 bg-gray-500 dark:bg-gray-300 rounded-md">ئ</button>
-            <button class="keyboard-button text-white dark:text-black p-6 bg-gray-500 dark:bg-gray-300 rounded-md">ء</button>
-            <button class="keyboard-button text-white dark:text-black p-6 bg-gray-500 dark:bg-gray-300 rounded-md">ؤ</button>
-            <button class="keyboard-button text-white dark:text-black p-6 bg-gray-500 dark:bg-gray-300 rounded-md">ر</button>
-            <button class="keyboard-button text-white dark:text-black p-6 bg-gray-500 dark:bg-gray-300 rounded-md">لا</button>
-            <button class="keyboard-button text-white dark:text-black p-6 bg-gray-500 dark:bg-gray-300 rounded-md">ى</button>
-            <button class="keyboard-button text-white dark:text-black p-6 bg-gray-500 dark:bg-gray-300 rounded-md">ة</button>
-            <button class="keyboard-button text-white dark:text-black p-6 bg-gray-500 dark:bg-gray-300 rounded-md">و</button>
-            <button class="keyboard-button text-white dark:text-black p-6 bg-gray-500 dark:bg-gray-300 rounded-md">ز</button>
-            <button class="keyboard-button text-white dark:text-black p-6 bg-gray-500 dark:bg-gray-300 rounded-md">ظ</button>
+            <button class="keyboard-button text-black dark:text-white p-6 bg-gray-custom dark:bg-gray-dark rounded-md">Enter</button>
+
+            <button class="keyboard-button text-black dark:text-white p-6 bg-gray-custom dark:bg-gray-dark rounded-md">ئ</button>
+            <button class="keyboard-button text-black dark:text-white p-6 bg-gray-custom dark:bg-gray-dark rounded-md">ؤ</button>
+            <button class="keyboard-button text-black dark:text-white p-6 bg-gray-custom dark:bg-gray-dark rounded-md">لا</button>
+            <button class="keyboard-button text-black dark:text-white p-6 bg-gray-custom dark:bg-gray-dark rounded-md">ى</button>
+
+            <button class="keyboard-button text-black dark:text-white p-6 bg-gray-custom dark:bg-gray-dark rounded-md">ء</button>
+            <button class="keyboard-button text-black dark:text-white p-6 bg-gray-custom dark:bg-gray-dark rounded-md">ظ</button>
+            <button class="keyboard-button text-black dark:text-white p-6 bg-gray-custom dark:bg-gray-dark rounded-md">ط</button>
+            <button class="keyboard-button text-black dark:text-white p-6 bg-gray-custom dark:bg-gray-dark rounded-md">ذ</button>
+            <button class="keyboard-button text-black dark:text-white p-6 bg-gray-custom dark:bg-gray-dark rounded-md">د</button>
+            <button class="keyboard-button text-black dark:text-white p-6 bg-gray-custom dark:bg-gray-dark rounded-md">ز</button>
+            <button class="keyboard-button text-black dark:text-white p-6 bg-gray-custom dark:bg-gray-dark rounded-md">ر</button>
+            <button class="keyboard-button text-black dark:text-white p-6 bg-gray-custom dark:bg-gray-dark rounded-md">و</button>
+            <button class="keyboard-button text-black dark:text-white p-6 bg-gray-custom dark:bg-gray-dark rounded-md">Del</button>
+
+
         </div>
     </div>
-    <div class="h-screen bg-black dark:bg-paige"></div>
+    <div class="h-screen text-gray-500 dark:text-black bg-white dark:bg-black"></div>
 
 </div>
 

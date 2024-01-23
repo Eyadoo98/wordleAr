@@ -10,6 +10,9 @@ export default {
     extend: {
       colors: {
         'paige': '#e3e3e1',
+        'gray-opacity': '#818384',
+        'gray-custom': '#D3D6DA',
+        'gray-dark': '#818384',
       },
     },
   },

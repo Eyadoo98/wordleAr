@@ -1,12 +1,5 @@
 <div>
-    @php
-        $retrievedJsonString = session('jsonObject');
-        $retrievedJsonObject = json_decode($retrievedJsonString, true);
-        #$sessionDate = \Illuminate\Support\Facades\Session::get('last_visit_date');
-    @endphp
-
     @switch($view)
-
         @case('main')
             @if(isset($retrievedJsonObject['date']) != 'today')
 
@@ -23,8 +16,4 @@
             @break
 
     @endswitch
-
-{{--    @if(isset($retrievedJsonObject['date']) == 'today')--}}
-{{--        @include('partials.WordleAr.status')--}}
-{{--    @endif--}}
 </div>

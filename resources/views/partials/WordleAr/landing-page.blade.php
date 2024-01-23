@@ -1,6 +1,6 @@
 <div class="h-dvh bg-paige dark:bg-black">
     <div class="container mx-auto pt-9">
-        <div class="flex justify-end">
+        <div class="flex justify-end invisible">
             <img src="{{asset('assets/images/moon.png')}}" id="moon" class="block w-5 cursor-pointer mr-4"
                  alt="Moon">
         </div>
@@ -12,7 +12,7 @@
             </div>
             <div class="text-center text-black dark:text-white"
                  style="text-align: -moz-center;text-align: -webkit-center;">
-                <h1 class="text-4xl mt-4" style="font-family: 'ChangaBold'">اسم اللعبة</h1>
+                <h1 class="text-4xl mt-4" style="font-family: 'ChangaBold'" id="testIDs">اسم اللعبة</h1>
             </div>
             <div>
                 <p class="text-3xl text-black dark:text-white mt-6" style="font-family: 'ChangaLight'">
@@ -24,13 +24,17 @@
                 <button class="bg-paige text-black py-3 px-12 rounded-full border-solid border-2 border-black"
                         style="font-family: 'ChangaLight'" wire:click="$set('view','how-can-play')">كيفية اللعب
                 </button>
-                <a href="{{route('auth.Socialite')}}">
-                <button class="bg-paige text-black py-3 px-12 rounded-full border-solid border-2 border-black"
-                        style="font-family: 'ChangaLight'">تسجيل الدخول
-{{--                    wire:click="$set('view','auth')"--}}
-                </button>
-                </a>
+                @if (!Auth::check())
+
+                    <a href="{{route('auth.Socialite')}}">
+                        <button class="bg-paige text-black py-3 px-12 rounded-full border-solid border-2 border-black"
+                                style="font-family: 'ChangaLight'">تسجيل الدخول
+                            {{--                    wire:click="$set('view','auth')"--}}
+                        </button>
+                    </a>
+                @endif
                 <button class="bg-black dark:bg-paige text-white dark:text-black py-3 px-16 rounded-full play-btn"
+                        id="button-play-game"
                         style="font-family: 'ChangaLight'" wire:click="$set('view','play-game')">العب
                 </button>
             </div>
@@ -43,7 +47,8 @@
         </div>
     </div>
 </div>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 {{--@if($from_auth_view == "play")--}}
 {{--    <script>--}}
 {{--        $(document).ready(function () {--}}

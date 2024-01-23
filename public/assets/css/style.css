@@ -1,8 +1,40 @@
+@font-face {
+    font-family: 'ChangaBold';
+    src: url('../../assets/fonts/changa/static/Changa-Bold.ttf');
+    font-weight: 100;
+}
+
+@font-face {
+    font-family: 'ChangaLight';
+    src: url('../../assets/fonts/changa/static/Changa-Light.ttf');
+    font-weight: bold;
+}
+
+@font-face {
+    font-family: 'SevillanaRegular';
+    src: url('../../assets/fonts/Sevillana/Sevillana-Regular.ttf');
+}
+
+@media screen and (max-width: 767px) {
+    .section-statistics {
+        min-width: 100%;
+    }
+}
+
 .letter-example-one, .letter-example-two, .letter-example-three {
     display: inline-block;
     animation-name: flip;
     animation-duration: 1s;
-    padding: 11px;
+    /*padding: 11px 10px;*/
+    /*padding: 11px;*/
+}
+
+.custom-letters {
+    font-family: 'ChangaBold';
+    /*min-width: 30px;*/
+    display: inline-block;
+    padding-right: 10px;
+    width: 37px !important;
 }
 
 @keyframes flip {
@@ -13,11 +45,35 @@
         transform: rotateX(120deg);
     }
 }
+
 @media screen and (max-width: 767px) {
-  .custom-font-size-modal{
-    font-size: 12px;
-  }
+    .custom-font-size-modal {
+        font-size: 12px;
+    }
+    .height-game-board{
+        display: none;
+    }
+    .letter-box{
+        height: 57px !important;
+    }
+    .keyboard-button{
+        padding: 6px !important;
+        font-size: 15px !important;
+    }
+    .height-dev{
+        height: 10px !important;
+    }
+    .close-question-button{
+        margin-top: 10px !important;
+    }
+    .font-social{
+        font-size: 15px !important;
+    }
+    .width-button-social{
+        width: 20rem !important;
+    }
 }
+
 h1 {
     text-align: center;
 }
@@ -40,9 +96,10 @@ h1 {
     justify-content: center;
     align-items: center;
     text-transform: uppercase;
-    font-family: 'ChangaLihgt';
+    font-family: 'ChangaLight';
     color: white;
 }
+
 /*.filled-box {*/
 /*    border: 2px solid black;*/
 /*}*/
@@ -51,6 +108,7 @@ h1 {
     display: flex;
     direction: rtl;
 }
+
 /*.toast-error {*/
 /*    background-color: #1a202c;*/
 /*}*/
@@ -76,5 +134,5 @@ h1 {
     margin: 0 2px;
     cursor: pointer;
     text-transform: uppercase;
-    font-family: 'ChangaLihgt';
+    font-family: 'ChangaLight';
 }
